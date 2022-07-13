@@ -1,0 +1,30 @@
+{
+  "name": "nostalk_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "start": "cross-env NODE_ENV=production node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NoStalk/NoStalk_Backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NoStalk/NoStalk_Backend/issues"
+  },
+  "homepage": "https://github.com/NoStalk/NoStalk_Backend#readme",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "express": "^4.18.1",
+    "helmet": "^5.1.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "nodemon": "^2.0.19"
+  }
+}
