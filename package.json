@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/NoStalk/NoStalk_Backend#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "debug": "^4.3.4",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
@@ -27,6 +28,7 @@
     "ts-node": "^10.9.1"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.13",
     "@types/node": "^18.0.3",
     "concurrently": "^7.2.2",
