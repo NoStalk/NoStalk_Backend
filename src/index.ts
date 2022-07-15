@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
@@ -19,11 +18,15 @@ mongoose.connection.on("open", function () {
   console.log("Connected to MongoDB database.");
 });
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.get("/", function (req, res) {
   res.status(200).send("Hello World!");
+});
+
+app.post("/", function (req, res) {
+  res.status(200).send({ msg: req.body.msg });
 });
 
 app.listen(PORT, () => {
