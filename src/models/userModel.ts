@@ -8,19 +8,22 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-  name: {
-      type: {
-          firstName: String,
-          lastName: String,
-      },
-      required: true,
+    firstName: {
+        type: String,
+        required: true,
     },
-  
+    lastName: {
+        type: String,
+        default: "",
+    },
     password: {
         
         type: String,
+        required: true,
     },
-    
+    refreshToken: {
+        type: String,
+    },
     platformData: {
         type: {
             leetcode: platformDataSchema,
@@ -40,13 +43,20 @@ const userSchema = new mongoose.Schema({
 userSchema.pre('save', async function (next) { 
     if(!this.isModified('password')) 
         return next();
-    
-    if(this.password)
-        this.password = await bcrypt.hash(this.password, 12);
-    
-    next();
+    try {
+        if (this.password) {
+            const hashedPassword = await bcrypt.hash(this.password, 10);
+            this.password = hashedPassword;
+            next();
+        }
+    }
+    catch (err: any) {
+        err = new Error("Error hashing or storing password");
+        next(err);
+    }
 });
+
 
 userSchema.index({ email: 1 }, { unique: true });
 
-module.exports = mongoose.model('users',userSchema);
+export default mongoose.model('users',userSchema);
