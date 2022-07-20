@@ -51,8 +51,9 @@ const handleLogin = async (req: Request, res: Response) => {
     firstName: foundUser.firstName,
     lastName: foundUser.lastName,
   };
+  
 
-  const refreshToken = jwt.sign(userPayload, process.env.REFRESH_TOKEN_SECRET, {
+  const refreshToken = jwt.sign({email:foundUser.email}, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: "30d",
   });
 
@@ -62,11 +63,12 @@ const handleLogin = async (req: Request, res: Response) => {
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       sameSite: "none",
-      //secure: true,
-      //Max Age to be set 30 days in production.
-      maxAge: 1000 * 60 * 2,
+      //Secure true only in production.
+      secure: (process.env.NODE_ENV === 'production'),
+      //Max Age set 30 days in production(30 minutes otherwise).
+      maxAge: (process.env.NODE_ENV === 'production') ? 1000 * 60 * 30:1000 * 60 * 60 * 24 * 30,
     });
-    res.sendStatus(200);
+    res.status(200).send(userPayload);
   } catch (err) {
     console.error(err);
     res

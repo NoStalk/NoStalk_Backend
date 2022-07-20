@@ -28,7 +28,6 @@ const handleLeetcodeDBData = async (req: Request, res: Response) => {
     if (!foundUser) {
         return res.status(400).send("User not found");
     }
-    console.log(foundUser);
 
     if (foundUser.platformData.leetcode) {
         foundUser.platformData.leetcode.handle = "asif";
