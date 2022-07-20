@@ -3,6 +3,10 @@ import userModel from "../models/userModel";
 import jwt from "jsonwebtoken";
 
 const handleRefresh = async (req: Request, res: Response) => {
+  /**
+   * Validating the existence of cookies
+   * Validating the existence of the refresh token
+   */
   if (!req.cookies) {
     return res.status(401).send("No cookies recieved");
   }

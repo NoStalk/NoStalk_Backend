@@ -71,7 +71,7 @@ const handleLogin = async (req: Request, res: Response) => {
     console.error(err);
     res
       .status(500)
-      .send("Error saving refresh token to database or setting cookie");
+      .send("Error saving refresh token to database or error in setting cookie");
   }
 };
 

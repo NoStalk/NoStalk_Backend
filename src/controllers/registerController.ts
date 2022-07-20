@@ -29,6 +29,7 @@ const isValidPassword = (password: string): boolean => {
  * function to register a user
  * @param req
  * @param res
+ * 
  */
 
 const registerUser = async (req: Request, res: Response) => {
@@ -73,6 +74,15 @@ const registerUser = async (req: Request, res: Response) => {
       password,
       firstName,
       lastName,
+      platformData: {
+        leetcode: {
+          handle: "zeus",
+          totalSolved: 10,
+          ranking: 1,
+          contests: [],
+          submissions: [],
+        },
+      },
     });
     console.log(user);
     res.status(201).send(`New User with email ${email} created!`);

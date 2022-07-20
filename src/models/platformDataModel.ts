@@ -1,7 +1,34 @@
 import mongoose from "mongoose";
 
-export const platformDataSchema = new mongoose.Schema({
-    handle: String,
+
+
+export interface platformDataInterface { 
+    handle: string;
+    totalSolved: number;
+    ranking: number;
+    contests: [{
+        name: string;
+        rank: number;
+        solved: number;
+        rating: number;
+    }],
+    submissions: [{
+        problemUrl: string;
+        problemName: string;
+        submissionDate: Date;
+        submissionLanguage: string;
+        submissionStatus: string;
+        codeUrl: string;
+    }]
+}
+
+
+
+export const platformDataSchema = new mongoose.Schema<platformDataInterface>({
+    handle: {
+        type: String,
+        default: "",
+    },
     totalSolved: Number,
     ranking: Number,
     contests: [{
