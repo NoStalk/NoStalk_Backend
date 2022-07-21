@@ -6,9 +6,10 @@ import loginRouter from "./routes/login";
 import refreshRouter from "./routes/refresh";
 import leetcodeRouter from "./routes/api/leetcode";
 import cookieParser from "cookie-parser";
+import cors from 'cors';
 
 
-const PORT = 5000 ;
+const PORT = 5000;
 const mongoString = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@nostalk.yhizah9.mongodb.net/UserDB?retryWrites=true&w=majority`;
 const app = express();
 
@@ -16,15 +17,19 @@ const app = express();
 
 mongoose.connect(mongoString);
 mongoose.connection.on("error", function (error) {
-  if (process.env.NODE_ENV === "development") {
-    console.log(error);
-  }
+  console.log(error);
 });
 
 mongoose.connection.on("open", function () {
-  console.log("Connected to MongoDB database.");
+  console.log("🔗 Connected to MongoDB database.");
 });
 
+const corsOptions = {
+  origin: true,
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+  credentials: true
+}
+//TODO configure cors properly
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -42,16 +47,18 @@ app.get("/", function (req, res) {
   console.log(req.params);
 });
 
-app.use('/register', registerRouter);
+app.use('/register', cors(corsOptions), registerRouter);
 
-app.use('/login', loginRouter);
+app.use('/login', cors(corsOptions), loginRouter);
 
-app.use('/refresh', refreshRouter);
+app.use('/refresh', cors(corsOptions), refreshRouter);
 
 app.use('/leetcode', leetcodeRouter);
+app.use(cors())
 
 app.listen(PORT, () => {
-  console.log(`⚡️[server]: Server is running at https://localhost:${PORT}`);
+  console.log(`⚡️ Server is running at https://localhost:${PORT}`);
+  console.log(`🌎 Enviroment: ${process.env.NODE_ENV}`);
 });
 
 
