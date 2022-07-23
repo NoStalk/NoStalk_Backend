@@ -5,6 +5,7 @@ import registerRouter from "./routes/register";
 import loginRouter from "./routes/login";
 import refreshRouter from "./routes/refresh";
 import leetcodeRouter from "./routes/api/leetcode";
+import oAuthRouter from "./routes/oAuth";
 import cookieParser from "cookie-parser";
 import cors from 'cors';
 
@@ -25,7 +26,7 @@ mongoose.connection.on("open", function () {
 });
 
 const corsOptions = {
-  origin: true,
+  origin: process.env.FRONTEND_URL,
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
   credentials: true
 }
@@ -53,12 +54,16 @@ app.use('/login', cors(corsOptions), loginRouter);
 
 app.use('/refresh', cors(corsOptions), refreshRouter);
 
+app.use('/oauth', cors(corsOptions), oAuthRouter)
+
 app.use('/leetcode', leetcodeRouter);
 app.use(cors())
 
 app.listen(PORT, () => {
-  console.log(`⚡️ Server is running at https://localhost:${PORT}`);
   console.log(`🌎 Enviroment: ${process.env.NODE_ENV}`);
+  console.log(`😏 Front-end URL(configured for cors): ${process.env.FRONTEND_URL}`);
+  console.log(`🔌 Port assigned: ${PORT}`);
+  console.log(`⚡️ Server is running at ${process.env.BACKEND_URL}`);
 });
 
 

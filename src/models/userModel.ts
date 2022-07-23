@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 
 interface userInterface {
   email: string;
-  password: string;
+  password?: string;
   firstName: string;
   lastName: string;
   refreshToken?: string;
@@ -36,12 +36,11 @@ const userSchema = new mongoose.Schema<userInterface>({
   },
   password: {
     type: String,
-    required: true,
   },
   refreshToken: {
     type: String,
   },
-    platformData: {
+  platformData: {
     type: {
       leetcode: platformDataSchema,
       codeforces: platformDataSchema,
@@ -51,8 +50,9 @@ const userSchema = new mongoose.Schema<userInterface>({
       hackerrank: platformDataSchema,
       hackerearth: platformDataSchema,
       codechef: platformDataSchema,
-        },
-        required: true,
+    },
+    required: true,
+    default: {}
   },
 });
 
