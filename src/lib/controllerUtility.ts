@@ -1,5 +1,6 @@
-import { Response } from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import jwt from "jsonwebtoken";
+import userModel from "../models/userModel";
 
 /**
    * @param user instance of userModel with the email to signed
@@ -31,9 +32,11 @@ export async function sendUserDetailsWithCookie(user: any, res: Response) {
         expiresIn: "30d",
     });
 
+
     try {
         user.refreshToken = refreshToken;
         await user.save();
+        console.log("saving refresh token to user");
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
             sameSite: "none",
@@ -49,5 +52,62 @@ export async function sendUserDetailsWithCookie(user: any, res: Response) {
             .status(500)
             .send("Error saving refresh token to database or error in setting cookie");
     }
+
+}
+
+/**
+ * Expresss middleware to verify the refresh token
+ * Attach the found user to the request object
+ * Else send an error with appropriate error message and status code
+ */
+
+export async function verifyAndSetUser(req: Request, res: Response, next: NextFunction) {
+    /**
+   * Validating the existence of cookies
+   * Validating the existence of the refresh token
+   */
+    if (!req.cookies) {
+        return res.status(401).send("No cookies recieved");
+    }
+    const { refreshToken } = req.cookies;
+    if (!refreshToken) {
+        return 
+        res.status(401).send("No refresh token");
+    }
+    /**
+     * finding the token in the database
+     * Checking if the token is issued by the server
+     * The .verify() method takes a token and a secret as parameters.
+     * The .verify() method returns a Promise.
+     * Then we verify the validity of the token by cross-checking the email.
+     * If everything is fine, then we return the user information to the client.
+     */
+    const foundUser = await userModel.findOne({ refreshToken }).exec();
+
+    if (!foundUser) {
+        return res.status(403).send("Invalid refresh token");
+    }
+    if (!process.env.REFRESH_TOKEN_SECRET) {
+        return res.status(500).send("REFRESH_TOKEN_SECRET is not defined");
+    }
+    try {
+        let decodedUser: any = jwt.verify(
+            refreshToken,
+            process.env.REFRESH_TOKEN_SECRET
+        );
+
+        if (decodedUser.email !== foundUser.email) {
+            return res.status(403).send("Invalid refresh token");
+        }
+
+
+    } catch (err) {
+        console.error(err);
+        return res.status(403).send("Token tampered");
+    }
+
+    req.user = foundUser;
+
+    next();
 
 }

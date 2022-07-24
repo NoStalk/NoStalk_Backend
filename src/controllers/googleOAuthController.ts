@@ -33,6 +33,7 @@ const handleGooogleOAuth = async (req: Request, res: Response) => {
                 lastName: userData.data.family_name || "",
             })
         }
+        console.log("sendinfg user details with cookie")
         sendUserDetailsWithCookie(user, res);
     } catch (error) {
         console.log(error);
@@ -40,9 +41,6 @@ const handleGooogleOAuth = async (req: Request, res: Response) => {
 
 }
 
-export const handleGoogleOAuthCallback = async (req: Request, res: Response) => {
-    res.send("success")
-}
 
 
 export default handleGooogleOAuth;

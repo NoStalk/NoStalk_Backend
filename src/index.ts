@@ -3,11 +3,13 @@ import mongoose from "mongoose";
 import "dotenv/config";
 import registerRouter from "./routes/register";
 import loginRouter from "./routes/login";
+import logoutRouter from "./routes/logout";
 import refreshRouter from "./routes/refresh";
 import leetcodeRouter from "./routes/api/leetcode";
 import oAuthRouter from "./routes/oAuth";
 import cookieParser from "cookie-parser";
 import cors from 'cors';
+import { verifyAndSetUser } from "./lib/controllerUtility";
 
 
 const PORT = 5000;
@@ -49,10 +51,9 @@ app.get("/", function (req, res) {
 });
 
 app.use('/register', cors(corsOptions), registerRouter);
-
 app.use('/login', cors(corsOptions), loginRouter);
-
-app.use('/refresh', cors(corsOptions), refreshRouter);
+app.use('/logout', cors(corsOptions), verifyAndSetUser, logoutRouter);
+app.use('/refresh', cors(corsOptions), verifyAndSetUser, refreshRouter);
 
 app.use('/oauth', cors(corsOptions), oAuthRouter)
 
