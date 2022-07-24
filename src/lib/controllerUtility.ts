@@ -71,8 +71,7 @@ export async function verifyAndSetUser(req: Request, res: Response, next: NextFu
     }
     const { refreshToken } = req.cookies;
     if (!refreshToken) {
-        return 
-        res.status(401).send("No refresh token");
+        return res.status(401).send("No refresh token");
     }
     /**
      * finding the token in the database
@@ -107,6 +106,8 @@ export async function verifyAndSetUser(req: Request, res: Response, next: NextFu
     }
 
     req.user = foundUser;
+
+    console.log("user found and set in request object");
 
     next();
 
