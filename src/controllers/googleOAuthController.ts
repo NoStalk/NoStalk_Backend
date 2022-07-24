@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { AuthClient } from "google-auth-library";
 import userModel from "../models/userModel";
 import axios from "axios";
 import { sendUserDetailsWithCookie } from "../lib/controllerUtility";
