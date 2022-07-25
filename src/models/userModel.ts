@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Model } from "mongoose";
 import { platformDataSchema, platformDataInterface } from "./platformDataModel";
 import bcrypt from "bcrypt";
 
@@ -18,6 +18,14 @@ interface userInterface {
     hackerearth?: platformDataInterface;
     codechef?: platformDataInterface;
   };
+}
+interface userModelInterface extends Model<userInterface> {
+  getUserandCreateUserIfNotExist(
+    email: string,
+    firstName: string,
+    lastName?: string,
+    password?: string
+  ): any;
 }
 
 const userSchema = new mongoose.Schema<userInterface>({
@@ -52,7 +60,7 @@ const userSchema = new mongoose.Schema<userInterface>({
       codechef: platformDataSchema,
     },
     required: true,
-    default: {}
+    default: {},
   },
 });
 
@@ -70,6 +78,36 @@ userSchema.pre("save", async function (next) {
   }
 });
 
+userSchema.statics.getUserandCreateUserIfNotExist = async function (
+  email: string,
+  firstName: string,
+  lastName?: string,
+  password?: string
+) {
+  const user = await this.findOne({ email: email });
+  console.log(user);
+  if (user) {
+    return user;
+  }
+  let newUser:any;
+  if (password) {
+    newUser = await this.create({
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      password: password,
+    });
+  } else {
+    newUser = await this.create({
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+    });
+  }
+
+  return newUser;
+};
+
 userSchema.index({ email: 1 }, { unique: true });
 
-export default mongoose.model("users", userSchema);
+export default mongoose.model<userInterface,userModelInterface>("users", userSchema);

@@ -45,7 +45,10 @@ export async function sendUserDetailsWithCookie(user: any, res: Response) {
             //Max Age set 30 days in production(30 minutes otherwise).
             maxAge: (process.env.NODE_ENV === 'production') ? 1000 * 60 * 30 : 1000 * 60 * 60 * 24 * 30,
         });
-        res.status(200).send(userPayload);
+        //TODO 
+        res
+            .status(200)
+            .send(userPayload);
     } catch (err) {
         console.error(err);
         res
