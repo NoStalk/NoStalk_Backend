@@ -3,6 +3,8 @@ import userModel from "../models/userModel";
 import axios from "axios";
 import { sendUserDetailsWithCookie } from "../lib/controllerUtility";
 
+import
+
 
 
 /**
@@ -32,7 +34,6 @@ const handleGooogleOAuth = async (req: Request, res: Response) => {
                 lastName: userData.data.family_name || "",
             })
         }
-        console.log("sendinfg user details with cookie")
         sendUserDetailsWithCookie(user, res);
     } catch (error) {
         console.log(error);
