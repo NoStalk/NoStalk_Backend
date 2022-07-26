@@ -20,7 +20,7 @@ const app = express();
 
 mongoose.connect(mongoString);
 mongoose.connection.on("error", function (error) {
-  console.log(error);
+  console.error(error);
 });
 
 mongoose.connection.on("open", function () {

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import userModel from "../models/userModel";
 import axios from "axios";
-import { sendUserDetailsWithCookie } from "../lib/controllerUtility";
+import { sendUserDetailsWithCookie, setCookieAndRedirect } from "../lib/controllerUtility";
 
 /**
  * The client requests the server for github oauth url
@@ -27,7 +27,7 @@ const handleGithubOAuth = async (req: Request, res: Response) => {
     );
     const responseString = response.data;
     const accessToken = responseString.split("&")[0].split("=")[1];
-    //console.log(response);
+    
     const githubProfileDataPromise = axios.get(`https://api.github.com/user`, {
       headers: {
         Authorization: `token ${accessToken}`,
@@ -48,11 +48,8 @@ const handleGithubOAuth = async (req: Request, res: Response) => {
       email,
       firstName
     );
-    // sendUserDetailsWithCookie(user, res);
-    // res.redirect(`${process.env.FRONTEND_URL}`,);
-    res.redirect(
-      `${process.env.FRONTEND_URL}/callback?email=${email}&firstName=${firstName}&path=${from}`
-    );
+    
+    setCookieAndRedirect(user, res, from as string);
   } catch (error) {
     console.log(error);
   }
