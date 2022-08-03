@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/NoStalk/NoStalk_Backend#readme",
   "dependencies": {
+    "@grpc/grpc-js": "^1.6.8",
+    "@grpc/proto-loader": "^0.7.0",
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",
@@ -27,6 +29,8 @@
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "googleapis": "^105.0.0",
+    "grpc_tools_node_protoc_ts": "^5.3.2",
+    "grpc-tools": "^1.11.2",
     "helmet": "^5.1.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.4.4",
