@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package proto;
 
-option go_package = "./proto/;platformDatapb";
 
 message Submission {
     string date = 1;
@@ -14,11 +13,10 @@ message Submission {
 }
 message Contest {
     string contestName = 1;
-    double rank = 2;
-    double old_rating = 3;
-    double new_rating = 4;
-    double rating_update_time_seconds = 6;
-    double contest_id = 7;
+    int64 rank = 2;
+    int64 old_rating = 3;
+    int64 new_rating = 4;
+    int64 contest_id = 5;
 }
 
 message SubmissionResponse {
