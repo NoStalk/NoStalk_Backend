@@ -19,6 +19,7 @@ const handleLinkedinOAuth = async (req: Request, res: Response) => {
     console.error("LINKEDIN_CLIENT_SECRET is not defined");
     return res.status(500).send("LINKEDIN_CLIENT_SECRET is not defined");
   }
+  //get req.query.path
 
   const { authorizationToken } = req.body;
 

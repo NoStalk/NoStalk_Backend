@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 
 
-export interface platformDataInterface { 
+export interface platformDataInterface {
     handle: string;
     totalSolved: number;
     ranking: number;
@@ -11,6 +11,8 @@ export interface platformDataInterface {
         rank: number;
         solved: number;
         rating: number;
+        contestId: string;
+        contestDate: string;
     }],
     submissions: [{
         problemUrl: string;
@@ -36,6 +38,7 @@ export const platformDataSchema = new mongoose.Schema<platformDataInterface>({
         rank: Number,
         solved: Number,
         rating: Number,
+        contestDate: String
     }],
     submissions: [{
         problemUrl: String,
