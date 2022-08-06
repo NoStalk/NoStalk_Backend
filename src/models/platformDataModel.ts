@@ -34,7 +34,7 @@ export const platformDataSchema = new mongoose.Schema<platformDataInterface>({
     totalSolved: Number,
     ranking: Number,
     contests: [{
-        name: String,
+        contestName: String,
         rank: Number,
         solved: Number,
         rating: Number,

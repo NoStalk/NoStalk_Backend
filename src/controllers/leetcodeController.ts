@@ -36,9 +36,6 @@ const handleLeetcodeDBData = async (req: Request, res: Response) => {
     }
 }
 
-const handleLeetcodeHandleData = async (req: Request, res: Response) => {
-
-}
 
 
 export default handleLeetcodeDBData

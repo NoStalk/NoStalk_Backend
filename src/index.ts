@@ -6,6 +6,7 @@ import loginRouter from "./routes/login";
 import logoutRouter from "./routes/logout";
 import refreshRouter from "./routes/refresh";
 import leetcodeRouter from "./routes/api/leetcode";
+import codeforcesrouter from "./routes/api/codeforces";
 import oAuthRouter from "./routes/oAuth";
 import cookieParser from "cookie-parser";
 import cors from 'cors';
@@ -58,6 +59,7 @@ app.use('/refresh', cors(corsOptions), verifyAndSetUser, refreshRouter);
 app.use('/oauth', cors(corsOptions), oAuthRouter)
 
 app.use('/leetcode', leetcodeRouter);
+app.use('/codeforces', codeforcesrouter);
 app.use(cors())
 
 app.listen(PORT, () => {
